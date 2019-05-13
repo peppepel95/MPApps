@@ -6,7 +6,6 @@ var app = {
     },
     // deviceready Event Handler
     onDeviceReady: function() {
-        alert("PhoneGap is working, event onDeviceReady");
         var buttonElement = document.getElementById("addContact");
         buttonElement.addEventListener('click', app.onAddContact);
     },
@@ -24,15 +23,22 @@ var app = {
         number.value = "";
         var ContactList = document.getElementById("ContactList");
         var node = document.createElement("LI");
-        var div1 = document.createElement('div');
-        var div2 = document.createElement('div');
-        var textnode1 = document.createTextNode("Contact: " + str_fname + " " + str_lname);
-        div1.appendChild(textnode1);
-        var textnode2 = document.createTextNode("Number: " + int_number);
-        div2.appendChild(textnode2);
-        node.appendChild(div1);
-        node.appendChild(div2);
+        var textnode = document.createTextNode(str_fname + " " + str_lname);
+        var a_node = document.createElement("a");
+        a_node.href = "#";
+        a_node.appendChild(textnode);
+        node.appendChild(a_node);
+        node.addEventListener('click', function() {app.onOpenContact( str_fname, str_lname, int_number);});
         ContactList.appendChild(node);
+    },
+    
+    onOpenContact: function(str_fname, str_lname, number) {
+        //var dirPath = app.dirname(location.href);
+        window.location = "html/contact.html?" + "fname=" + str_fname + ";lname=" + str_lname + ";number=" + number;
+    },
+    
+    dirname: function(path) {
+        return path.replace(/\\/g,'/').replace(/\/[^\/]*$/, '');
     }
 };
 
